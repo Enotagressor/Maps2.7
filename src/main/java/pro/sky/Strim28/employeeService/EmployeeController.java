@@ -1,16 +1,14 @@
-package pro.sky.Maps27.employeeService;
+package pro.sky.Strim28.employeeService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pro.sky.Maps27.empl.Employee;
-import pro.sky.Maps27.exception.EmployeeAlreadyAddedException;
-import pro.sky.Maps27.exception.EmployeeStoragesFullException;
+import pro.sky.Strim28.empl.Employee;
+import pro.sky.Strim28.exception.EmployeeAlreadyAddedException;
+import pro.sky.Strim28.exception.EmployeeStoragesFullException;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/employee")
@@ -28,10 +26,11 @@ public class EmployeeController {
 
     @GetMapping("/add")
     public String add(@RequestParam("firstName") String firstName,
-                      @RequestParam("lastName") String lastName) {
-        Employee employee = new Employee(firstName, lastName);
+                      @RequestParam("lastName") String lastName,
+                      @RequestParam("department") String department,
+                      @RequestParam("salary") Double salary){
         try {
-            employeeService.addEmployee(employee);
+            employeeService.addEmployee(firstName, lastName, department, salary);
             return "Employee added";
         } catch (EmployeeAlreadyAddedException e) {
             return "Такой сотрудник уже существует!";
@@ -43,19 +42,17 @@ public class EmployeeController {
     @GetMapping("/remove")
     public String remove(@RequestParam("firstName") String firstName,
                          @RequestParam("lastName") String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        employeeService.removeEmployee(employee);
+        employeeService.removeEmployee(firstName, lastName);
         return "Employee removed";
     }
 
     @GetMapping("/find")
     public String find(@RequestParam("firstName") String firstName,
                        @RequestParam("lastName") String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        return employeeService.findEmployee(employee);
+        return employeeService.findEmployee(firstName, lastName);
     }
     @GetMapping("/list")
-    public Map<Employee, Integer> listEmployee() {
+    public Collection<Employee> listEmployee() {
         return employeeService.listEmployee();
     }
 }

@@ -1,3 +1,3 @@
-package pro.sky.Maps27.exception;
+package pro.sky.Strim28.exception;
 public class EmployeeAlreadyAddedException extends RuntimeException{
 }
